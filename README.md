@@ -8,4 +8,4 @@ LUNA FAUSTINO LIMA – 552473 - 2TDSPB
 
 Toda explicação sobre o projeto, como imagens dos diagramas, endpoints da API e etc estão na documentação do repositório.
 
-Link do vídeo atualizado da aplicação: https://youtu.be/QeDd_QnXaxM?si=0uFvKDCHxNBpR1l7
+Link do vídeo atualizado da aplicação: https://youtu.be/uZyYlbf_XSk?si=bdhZGs2LpxR0WNrp

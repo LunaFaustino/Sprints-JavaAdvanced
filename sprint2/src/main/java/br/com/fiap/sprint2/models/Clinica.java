@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -58,8 +59,10 @@ public class Clinica {
     private Endereco endereco;
 
     @OneToMany(mappedBy = "clinica", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Paciente> pacientes = new ArrayList<>();
 
     @OneToMany(mappedBy = "clinica", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Dentista> dentistas = new ArrayList<>();
 }
