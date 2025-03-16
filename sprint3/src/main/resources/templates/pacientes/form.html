@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pacienteDTO.cpf == null ? 'Novo Paciente' : 'Editar Paciente'}">Paciente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="#">Sistema Odontoprev</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/clinicas}">Clínicas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/dentistas}">Dentistas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" th:href="@{/pacientes}">Pacientes</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2 th:text="${pacienteDTO.cpf == null ? 'Novo Paciente' : 'Editar Paciente'}">Paciente</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <form th:object="${pacienteDTO}" method="post"
+                  th:action="@{${pacienteDTO.cpf == null ? '/pacientes/novo' : '/pacientes/' + pacienteDTO.cpf + '/editar'}}">
+
+                <!-- Dados do Paciente -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="cpf" class="form-label">CPF</label>
+                        <input type="text" th:field="*{cpf}" class="form-control"
+                               th:readonly="${pacienteDTO.cpf != null}"
+                               th:classappend="${#fields.hasErrors('cpf')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('cpf')}"
+                             th:errors="*{cpf}"></div>
+                        <small class="form-text text-muted">Digite apenas números (11 dígitos)</small>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="nome" class="form-label">Nome</label>
+                        <input type="text" th:field="*{nome}" class="form-control"
+                               th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}"
+                             th:errors="*{nome}"></div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+                        <input type="date" th:field="*{dataNascimento}" class="form-control"
+                               th:classappend="${#fields.hasErrors('dataNascimento')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('dataNascimento')}"
+                             th:errors="*{dataNascimento}"></div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" th:field="*{email}" class="form-control"
+                               th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}"
+                             th:errors="*{email}"></div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="telefone" class="form-label">Telefone</label>
+                        <input type="text" th:field="*{telefone}" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="genero" class="form-label">Gênero</label>
+                        <select th:field="*{genero}" class="form-select">
+                            <option value="">Selecione...</option>
+                            <option th:each="generoOpt : ${T(br.com.fiap.sprint3.models.Genero).values()}"
+                                    th:value="${generoOpt.name()}"
+                                    th:text="${generoOpt.getDescricao()}"></option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="status" class="form-label">Status</label>
+                        <select th:field="*{status}" class="form-select"
+                                th:classappend="${#fields.hasErrors('status')} ? 'is-invalid'">
+                            <option value="">Selecione...</option>
+                            <option th:each="statusOpt : ${T(br.com.fiap.sprint3.models.Status).values()}"
+                                    th:value="${statusOpt.name()}"
+                                    th:text="${statusOpt.getDescricao()}"></option>
+                        </select>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('status')}"
+                             th:errors="*{status}"></div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="clinicaCnpj" class="form-label">Clínica</label>
+                        <select th:field="*{clinicaCnpj}" class="form-select"
+                                th:classappend="${#fields.hasErrors('clinicaCnpj')} ? 'is-invalid'">
+                            <option value="">Selecione...</option>
+                            <option th:each="clinica : ${clinicas}"
+                                    th:value="${clinica.cnpj}"
+                                    th:text="${clinica.nomeFantasia}"></option>
+                        </select>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('clinicaCnpj')}"
+                             th:errors="*{clinicaCnpj}"></div>
+                    </div>
+                </div>
+
+                <!-- Dados do Endereço -->
+                <h4 class="mt-4">Endereço</h4>
+                <hr>
+
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <label for="endereco.logradouro" class="form-label">Logradouro</label>
+                        <input type="text" th:field="*{endereco.logradouro}" class="form-control"
+                               th:classappend="${#fields.hasErrors('endereco.logradouro')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('endereco.logradouro')}"
+                             th:errors="*{endereco.logradouro}"></div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="endereco.numero" class="form-label">Número</label>
+                        <input type="number" th:field="*{endereco.numero}" class="form-control">
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="endereco.complemento" class="form-label">Complemento</label>
+                        <input type="text" th:field="*{endereco.complemento}" class="form-control">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="endereco.bairro" class="form-label">Bairro</label>
+                        <input type="text" th:field="*{endereco.bairro}" class="form-control"
+                               th:classappend="${#fields.hasErrors('endereco.bairro')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('endereco.bairro')}"
+                             th:errors="*{endereco.bairro}"></div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="endereco.cidade" class="form-label">Cidade</label>
+                        <input type="text" th:field="*{endereco.cidade}" class="form-control"
+                               th:classappend="${#fields.hasErrors('endereco.cidade')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('endereco.cidade')}"
+                             th:errors="*{endereco.cidade}"></div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="endereco.estado" class="form-label">Estado</label>
+                        <input type="text" th:field="*{endereco.estado}" class="form-control"
+                               th:classappend="${#fields.hasErrors('endereco.estado')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('endereco.estado')}"
+                             th:errors="*{endereco.estado}"></div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="endereco.cep" class="form-label">CEP</label>
+                        <input type="text" th:field="*{endereco.cep}" class="form-control"
+                               th:classappend="${#fields.hasErrors('endereco.cep')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('endereco.cep')}"
+                             th:errors="*{endereco.cep}"></div>
+                        <small class="form-text text-muted">Formato: 00000-000</small>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <a th:href="@{/pacientes}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
