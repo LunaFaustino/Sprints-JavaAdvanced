@@ -40,12 +40,10 @@ public class DentistaServiceImpl implements DentistaService {
             throw new IllegalArgumentException("Já existe um dentista com o CRO: " + dentista.getCro());
         }
 
-        // Verifica se a clínica existe
         if (dentista.getClinica() == null || dentista.getClinica().getCnpj() == null) {
             throw new IllegalArgumentException("Clínica não informada para o dentista");
         }
 
-        // Garantir que a clínica exista
         try {
             Clinica clinica = clinicaService.obterClinicaPorCnpj(dentista.getClinica().getCnpj());
             dentista.setClinica(clinica);
@@ -60,18 +58,14 @@ public class DentistaServiceImpl implements DentistaService {
     public void atualizarDentista(String cro, Dentista dentista) {
         logger.info("Atualizando dentista com CRO {}: {}", cro, dentista);
 
-        // Verificar se o dentista existe
         Dentista dentistaExistente = obterDentistaPorCro(cro);
 
-        // Validações de negócio
         if (dentista.validarEmail()) {
             throw new IllegalArgumentException("Email inválido: " + dentista.getEmail());
         }
 
-        // Garantir que o CRO não seja alterado
         dentista.setCro(cro);
 
-        // Verifica se a clínica existe
         if (dentista.getClinica() != null && dentista.getClinica().getCnpj() != null) {
             try {
                 Clinica clinica = clinicaService.obterClinicaPorCnpj(dentista.getClinica().getCnpj());
@@ -80,7 +74,6 @@ public class DentistaServiceImpl implements DentistaService {
                 throw new IllegalArgumentException("Clínica não encontrada: " + dentista.getClinica().getCnpj());
             }
         } else {
-            // Manter a clínica atual se não for informada
             dentista.setClinica(dentistaExistente.getClinica());
         }
 

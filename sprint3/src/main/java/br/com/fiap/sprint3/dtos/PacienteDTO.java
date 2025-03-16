@@ -41,12 +41,11 @@ public class PacienteDTO {
     @NotBlank(message = "A clínica é obrigatória")
     private String clinicaCnpj;
 
-    private String nomeClinica; // Campo auxiliar para exibir nome da clínica
+    private String nomeClinica;
 
     @Valid
-    private EnderecoDTO endereco; // Corrigido para remover o cedilha
+    private EnderecoDTO endereco;
 
-    // Construtor vazio necessário para formulários
     public PacienteDTO() {
     }
 

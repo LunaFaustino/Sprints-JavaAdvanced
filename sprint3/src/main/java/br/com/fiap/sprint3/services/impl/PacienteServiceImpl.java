@@ -26,12 +26,11 @@ public class PacienteServiceImpl implements PacienteService {
     }
 
     @Override
-    @Transactional // Adicione esta anotação se ainda não estiver presente
+    @Transactional
     public Paciente salvarPaciente(Paciente paciente) {
         logger.info("Iniciando método salvarPaciente no service");
         logger.info("Paciente recebido: {}", paciente);
 
-        // Validações de negócio antes de salvar
         logger.info("Validando CPF");
         if (!paciente.validarCpf()) {
             logger.error("CPF inválido: {}", paciente.getCpf());
@@ -50,20 +49,17 @@ public class PacienteServiceImpl implements PacienteService {
             throw new IllegalArgumentException("Já existe um paciente com o CPF: " + paciente.getCpf());
         }
 
-        // Calcular idade baseado na data de nascimento
         if (paciente.getDataNascimento() != null) {
             logger.info("Calculando idade baseada na data de nascimento: {}", paciente.getDataNascimento());
             paciente.calcularIdade();
             logger.info("Idade calculada: {}", paciente.getIdade());
         }
 
-        // Verifica se a clínica existe
         if (paciente.getClinica() == null || paciente.getClinica().getCnpj() == null) {
             logger.error("Clínica não informada para o paciente");
             throw new IllegalArgumentException("Clínica não informada para o paciente");
         }
 
-        // Garantir que a clínica exista
         try {
             logger.info("Verificando clínica com CNPJ: {}", paciente.getClinica().getCnpj());
             Clinica clinica = clinicaService.obterClinicaPorCnpj(paciente.getClinica().getCnpj());
@@ -89,32 +85,26 @@ public class PacienteServiceImpl implements PacienteService {
     public void atualizarPaciente(String cpf, Paciente paciente) {
         logger.info("Atualizando paciente com CPF {}: {}", cpf, paciente);
 
-        // Verificar se o paciente existe
         Paciente pacienteExistente = obterPacientePorCpf(cpf);
 
-        // Validações de negócio
         if (paciente.validarEmail()) {
             throw new IllegalArgumentException("Email inválido: " + paciente.getEmail());
         }
 
-        // Atualizar campos
         pacienteExistente.setNome(paciente.getNome());
         pacienteExistente.setEmail(paciente.getEmail());
         pacienteExistente.setTelefone(paciente.getTelefone());
         pacienteExistente.setGenero(paciente.getGenero());
         pacienteExistente.setStatus(paciente.getStatus());
 
-        // Atualizar data de nascimento e recalcular idade
         if (paciente.getDataNascimento() != null) {
             pacienteExistente.setDataNascimento(paciente.getDataNascimento());
         }
 
-        // Atualizar endereço se fornecido
         if (paciente.getEndereco() != null) {
             pacienteExistente.setEndereco(paciente.getEndereco());
         }
 
-        // Verifica se há uma nova clínica
         if (paciente.getClinica() != null && paciente.getClinica().getCnpj() != null) {
             try {
                 Clinica clinica = clinicaService.obterClinicaPorCnpj(paciente.getClinica().getCnpj());

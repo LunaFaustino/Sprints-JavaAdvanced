@@ -11,5 +11,5 @@ public interface ClinicaService {
     void deletarClinica(String cnpj);
     Clinica obterClinicaPorCnpj(String cnpj);
     List<Clinica> listarTodasClinicas();
-    boolean existeClinicaComCnpj(String cnpj); // Mantido para validação
+    boolean existeClinicaComCnpj(String cnpj);
 }

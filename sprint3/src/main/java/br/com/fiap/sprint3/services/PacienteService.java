@@ -10,5 +10,5 @@ public interface PacienteService {
     void deletarPaciente(String cpf);
     Paciente obterPacientePorCpf(String cpf);
     List<Paciente> listarTodosPacientes();
-    boolean existePacienteComCpf(String cpf); // Mantido para validação
+    boolean existePacienteComCpf(String cpf);
 }

@@ -5,7 +5,6 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.InputMismatchException;
 
 @Entity
 @Table(name = "tb_paciente")

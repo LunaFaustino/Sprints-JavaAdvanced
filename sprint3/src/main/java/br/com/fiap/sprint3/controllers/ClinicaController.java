@@ -40,7 +40,7 @@ public class ClinicaController {
         model.addAttribute("clinicaDTO", new ClinicaDTO());
         model.addAttribute("portes", Porte.values());
         model.addAttribute("statusOptions", Status.values());
-        model.addAttribute("permitirEdicaoCnpj", true);  // Adicione esta linha
+        model.addAttribute("permitirEdicaoCnpj", true);
         return "clinicas/form";
     }
 
@@ -93,7 +93,7 @@ public class ClinicaController {
             model.addAttribute("clinicaDTO", new ClinicaDTO(clinica));
             model.addAttribute("portes", Porte.values());
             model.addAttribute("statusOptions", Status.values());
-            model.addAttribute("permitirEdicaoCnpj", false);  // Adicione esta linha
+            model.addAttribute("permitirEdicaoCnpj", false);
             return "clinicas/form";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("mensagemErro", "Clínica não encontrada.");
@@ -115,7 +115,7 @@ public class ClinicaController {
         if (result.hasErrors()) {
             model.addAttribute("portes", Porte.values());
             model.addAttribute("statusOptions", Status.values());
-            model.addAttribute("permitirEdicaoCnpj", false);  // Adicione esta linha
+            model.addAttribute("permitirEdicaoCnpj", false);
             return "clinicas/form";
         }
 

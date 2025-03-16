@@ -24,7 +24,6 @@ public class ClinicaServiceImpl implements ClinicaService {
     public void salvarClinica(Clinica clinica) {
         logger.info("Salvando clínica com CNPJ {}: {}", clinica.getCnpj(), clinica);
 
-        // Validações básicas
         if (!clinica.validarCnpj()) {
             throw new IllegalArgumentException("CNPJ inválido: " + clinica.getCnpj());
         }

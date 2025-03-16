@@ -35,7 +35,7 @@ public class DentistaDTO {
     @NotBlank(message = "A clínica é obrigatória")
     private String clinicaCnpj;
 
-    private String nomeClinica; // Campo auxiliar para exibir nome da clínica
+    private String nomeClinica;
 
     public DentistaDTO() {
     }

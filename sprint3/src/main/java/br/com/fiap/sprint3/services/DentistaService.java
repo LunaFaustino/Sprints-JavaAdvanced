@@ -10,5 +10,5 @@ public interface DentistaService {
     void deletarDentista(String cro);
     Dentista obterDentistaPorCro(String cro);
     List<Dentista> listarTodosDentistas();
-    boolean existeDentistaComCro(String cro); // Mantido para validação
+    boolean existeDentistaComCro(String cro);
 }

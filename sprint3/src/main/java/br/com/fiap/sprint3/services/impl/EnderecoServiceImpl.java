@@ -47,10 +47,8 @@ public class EnderecoServiceImpl implements EnderecoService {
     public void atualizarEndereco(Integer id, Endereco novoEndereco) {
         logger.info("Atualizando endereço com ID {}: {}", id, novoEndereco);
 
-        // Obter o endereço existente
         Endereco enderecoExistente = obterEnderecoPorId(id);
 
-        // Validações básicas
         if (novoEndereco.getLogradouro() == null || novoEndereco.getLogradouro().trim().isEmpty()) {
             throw new IllegalArgumentException("Logradouro não pode ser vazio");
         }
@@ -67,7 +65,6 @@ public class EnderecoServiceImpl implements EnderecoService {
             throw new IllegalArgumentException("CEP inválido: " + novoEndereco.getCep());
         }
 
-        // Atualizar campos
         enderecoExistente.setLogradouro(novoEndereco.getLogradouro());
         enderecoExistente.setNumero(novoEndereco.getNumero());
         enderecoExistente.setComplemento(novoEndereco.getComplemento());
