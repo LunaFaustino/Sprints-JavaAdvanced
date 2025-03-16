@@ -1,4 +1,4 @@
-# Sprints - JavaAdvanced
+# Sprints - Java Advanced
 
 ## Repositório criado para realizar as entregas das Sprints do Challenge da Odontoprev
 
