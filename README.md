@@ -13,7 +13,7 @@ Este projeto tem como objetivo desenvolver um sistema de gestão para clínicas 
 
 ## Link Vídeo YouTube
 
-https://www.youtube.com/watch?v=e8z7gYyz8oY
+https://www.youtube.com/watch?v=SyTqWdefHxs
 
 ## Arquitetura da Solução
 
