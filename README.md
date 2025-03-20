@@ -4,7 +4,7 @@
 
 ## Equipe
 - **Larissa Araújo Gama Alvarenga** — 96496 - 2TDSPS
-- **Larissa Lopes Oliveira** — 552628 - 2TDSPB
+- **Larissa Lopes Oliveira** — 552628 - 2TDSPC
 - **Luna Faustino Lima** — 552473 - 2TDSPS
 
 ## Objetivo da Solução
