@@ -5,16 +5,12 @@ import br.com.fiap.sprint4.models.Dentista;
 import br.com.fiap.sprint4.repositories.DentistaRepository;
 import br.com.fiap.sprint4.services.ClinicaService;
 import br.com.fiap.sprint4.services.DentistaService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class DentistaServiceImpl implements DentistaService {
-
-    private static final Logger logger = LoggerFactory.getLogger(DentistaServiceImpl.class);
 
     private final DentistaRepository dentistaRepository;
     private final ClinicaService clinicaService;
@@ -26,7 +22,6 @@ public class DentistaServiceImpl implements DentistaService {
 
     @Override
     public void salvarDentista(Dentista dentista) {
-        logger.info("Salvando dentista com CRO {}: {}", dentista.getCro(), dentista);
 
         if (!dentista.validarCro()) {
             throw new IllegalArgumentException("CRO inválido: " + dentista.getCro());
@@ -56,7 +51,6 @@ public class DentistaServiceImpl implements DentistaService {
 
     @Override
     public void atualizarDentista(String cro, Dentista dentista) {
-        logger.info("Atualizando dentista com CRO {}: {}", cro, dentista);
 
         Dentista dentistaExistente = obterDentistaPorCro(cro);
 
@@ -82,20 +76,17 @@ public class DentistaServiceImpl implements DentistaService {
 
     @Override
     public void deletarDentista(String cro) {
-        logger.info("Deletando dentista com CRO {}", cro);
         dentistaRepository.deleteById(cro);
     }
 
     @Override
     public Dentista obterDentistaPorCro(String cro) {
-        logger.info("Obtendo dentista com CRO {}", cro);
         return dentistaRepository.findById(cro)
                 .orElseThrow(() -> new IllegalArgumentException("Dentista não encontrado com CRO: " + cro));
     }
 
     @Override
     public List<Dentista> listarTodosDentistas() {
-        logger.info("Listando todos os dentistas");
         return dentistaRepository.findAll();
     }
 

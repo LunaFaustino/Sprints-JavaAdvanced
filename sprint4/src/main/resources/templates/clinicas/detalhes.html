@@ -48,7 +48,7 @@
     <div class="d-flex justify-content-between mb-3">
         <h2>Detalhes da Clínica</h2>
         <div>
-            <a th:href="@{/clinicas/{cnpj}/editar(cnpj=${clinica.cnpj})}" class="btn btn-warning">Editar</a>
+            <a th:href="@{/clinicas/{cnpj}/editar(cnpj=${clinica.cnpj})}" class="btn btn-warning" sec:authorize="hasRole('ADMIN')">Editar</a>
             <a th:href="@{/clinicas}" class="btn btn-secondary">Voltar</a>
         </div>
     </div>

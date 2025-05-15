@@ -23,7 +23,7 @@ public class Usuario {
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "tb_usuario_pefil",
+    @JoinTable(name = "tb_usuario_perfil",
             joinColumns = @JoinColumn(name = "nm_usuario"),
             inverseJoinColumns = @JoinColumn(name = "nm_perfil"))
     private Set<Perfil> perfis = new HashSet<>();

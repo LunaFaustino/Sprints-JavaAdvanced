@@ -3,16 +3,12 @@ package br.com.fiap.sprint4.services.impl;
 import br.com.fiap.sprint4.models.Endereco;
 import br.com.fiap.sprint4.repositories.EnderecoRepository;
 import br.com.fiap.sprint4.services.EnderecoService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class EnderecoServiceImpl implements EnderecoService {
-
-    private static final Logger logger = LoggerFactory.getLogger(EnderecoServiceImpl.class);
 
     private final EnderecoRepository enderecoRepository;
 
@@ -22,7 +18,6 @@ public class EnderecoServiceImpl implements EnderecoService {
 
     @Override
     public void salvarEndereco(Endereco endereco) {
-        logger.info("Salvando endereço: {}", endereco);
 
         if (endereco.getLogradouro() == null || endereco.getLogradouro().trim().isEmpty()) {
             throw new IllegalArgumentException("Logradouro não pode ser vazio");
@@ -45,7 +40,6 @@ public class EnderecoServiceImpl implements EnderecoService {
 
     @Override
     public void atualizarEndereco(Integer id, Endereco novoEndereco) {
-        logger.info("Atualizando endereço com ID {}: {}", id, novoEndereco);
 
         Endereco enderecoExistente = obterEnderecoPorId(id);
 
@@ -78,7 +72,6 @@ public class EnderecoServiceImpl implements EnderecoService {
 
     @Override
     public void deletarEndereco(Integer id) {
-        logger.info("Deletando endereço com ID {}", id);
 
         if (!enderecoRepository.existsById(id)) {
             throw new IllegalArgumentException("Endereço não encontrado com ID: " + id);
@@ -89,14 +82,12 @@ public class EnderecoServiceImpl implements EnderecoService {
 
     @Override
     public Endereco obterEnderecoPorId(Integer id) {
-        logger.info("Obtendo endereço com ID {}", id);
         return enderecoRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Endereço não encontrado com ID: " + id));
     }
 
     @Override
     public List<Endereco> listarTodosEnderecos() {
-        logger.info("Listando todos os endereços");
         return enderecoRepository.findAll();
     }
 }

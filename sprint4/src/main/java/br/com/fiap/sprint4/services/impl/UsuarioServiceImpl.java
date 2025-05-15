@@ -3,11 +3,8 @@ package br.com.fiap.sprint4.services.impl;
 import br.com.fiap.sprint4.models.Perfil;
 import br.com.fiap.sprint4.models.Status;
 import br.com.fiap.sprint4.models.Usuario;
-import br.com.fiap.sprint4.repositories.PerfilRepository;
 import br.com.fiap.sprint4.repositories.UsuarioRepository;
 import br.com.fiap.sprint4.services.UsuarioService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -22,32 +19,21 @@ import java.util.*;
 @Service
 public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
 
-    private static final Logger logger = LoggerFactory.getLogger(UsuarioServiceImpl.class);
-
     private final UsuarioRepository usuarioRepository;
-    private final PerfilRepository perfilRepository;
     private final PasswordEncoder passwordEncoder;
 
     public UsuarioServiceImpl(UsuarioRepository usuarioRepository,
-                              PerfilRepository perfilRepository,
                               PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
-        this.perfilRepository = perfilRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.debug("Tentando autenticar usuário: {}", username);
-
         Usuario usuario = usuarioRepository.findByUsername(username)
-                .orElseThrow(() -> {
-                    logger.error("Usuário não encontrado: {}", username);
-                    return new UsernameNotFoundException("Usuário não encontrado: " + username);
-                });
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + username));
 
         if (usuario.getStatus() == Status.INATIVO) {
-            logger.error("Usuário inativo: {}", username);
             throw new UsernameNotFoundException("Usuário inativo: " + username);
         }
 
@@ -55,8 +41,6 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         for (Perfil perfil : usuario.getPerfis()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_" + perfil.getNome()));
         }
-
-        logger.debug("Usuário {} encontrado com perfis: {}", username, authorities);
 
         return new User(usuario.getUsername(),
                 usuario.getPassword(),

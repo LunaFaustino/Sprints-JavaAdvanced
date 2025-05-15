@@ -94,7 +94,7 @@
                     <div class="col-md-6">
                         <label for="password" class="form-label">
                             <span th:if="${usuarioDTO.username == null}">Senha</span>
-                            <span th:if="${usuarioDTO.username != null}">Nova Senha (deixe em branco para manter a atual)</span>
+                            <span th:if="${usuarioDTO.username != null}">Nova Senha</span>
                         </label>
                         <input type="password" th:field="*{password}" class="form-control"
                                th:required="${usuarioDTO.username == null}">

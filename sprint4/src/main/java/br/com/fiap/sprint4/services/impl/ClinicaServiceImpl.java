@@ -3,16 +3,12 @@ package br.com.fiap.sprint4.services.impl;
 import br.com.fiap.sprint4.models.Clinica;
 import br.com.fiap.sprint4.repositories.ClinicaRepository;
 import br.com.fiap.sprint4.services.ClinicaService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ClinicaServiceImpl implements ClinicaService {
-
-    private static final Logger logger = LoggerFactory.getLogger(ClinicaServiceImpl.class);
 
     private final ClinicaRepository clinicaRepository;
 
@@ -22,7 +18,6 @@ public class ClinicaServiceImpl implements ClinicaService {
 
     @Override
     public void salvarClinica(Clinica clinica) {
-        logger.info("Salvando clínica com CNPJ {}: {}", clinica.getCnpj(), clinica);
 
         if (!clinica.validarCnpj()) {
             throw new IllegalArgumentException("CNPJ inválido: " + clinica.getCnpj());
@@ -41,7 +36,6 @@ public class ClinicaServiceImpl implements ClinicaService {
 
     @Override
     public void atualizarClinica(String cnpj, Clinica clinica) {
-        logger.info("Atualizando clínica com CNPJ {}: {}", cnpj, clinica);
 
         if (clinica.validarEmail()) {
             throw new IllegalArgumentException("Email inválido: " + clinica.getEmail());
@@ -54,20 +48,17 @@ public class ClinicaServiceImpl implements ClinicaService {
 
     @Override
     public void deletarClinica(String cnpj) {
-        logger.info("Deletando clínica com CNPJ {}", cnpj);
         clinicaRepository.deleteById(cnpj);
     }
 
     @Override
     public Clinica obterClinicaPorCnpj(String cnpj) {
-        logger.info("Obtendo clínica com CNPJ {}", cnpj);
         return clinicaRepository.findById(cnpj)
                 .orElseThrow(() -> new IllegalArgumentException("Clínica não encontrada com CNPJ: " + cnpj));
     }
 
     @Override
     public List<Clinica> listarTodasClinicas() {
-        logger.info("Listando todas as clínicas");
         return clinicaRepository.findAll();
     }
 

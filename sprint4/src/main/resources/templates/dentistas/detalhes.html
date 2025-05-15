@@ -20,10 +20,10 @@
                     <a class="nav-link" th:href="@{/}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/clinicas}">Clínicas</a>
+                    <a class="nav-link" th:href="@{/clinicas}">Clínicas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/dentistas}">Dentistas</a>
+                    <a class="nav-link active" th:href="@{/dentistas}">Dentistas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/pacientes}">Pacientes</a>
@@ -48,7 +48,7 @@
     <div class="d-flex justify-content-between mb-3">
         <h2>Detalhes do Dentista</h2>
         <div>
-            <a th:href="@{/dentistas/{cro}/editar(cro=${dentista.cro})}" class="btn btn-warning">Editar</a>
+            <a th:href="@{/dentistas/{cro}/editar(cro=${dentista.cro})}" class="btn btn-warning" sec:authorize="hasRole('ADMIN')">Editar</a>
             <a th:href="@{/dentistas}" class="btn btn-secondary">Voltar</a>
         </div>
     </div>

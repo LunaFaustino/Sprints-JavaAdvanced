@@ -20,11 +20,11 @@ public class DataInitializer {
     public CommandLineRunner initData(PerfilRepository perfilRepository,
                                       UsuarioRepository usuarioRepository,
                                       PasswordEncoder passwordEncoder) {
-        return args -> {
+        return _ -> {
             System.out.println("Iniciando a criação de dados iniciais...");
 
-            Perfil adminPerfil = null;
-            Perfil userPerfil = null;
+            Perfil adminPerfil;
+            Perfil userPerfil;
 
             if (perfilRepository.count() == 0) {
                 System.out.println("Criando perfis...");
@@ -55,7 +55,7 @@ public class DataInitializer {
                 perfisAdmin.add(adminPerfil);
                 admin.setPerfis(perfisAdmin);
 
-                Usuario savedAdmin = usuarioRepository.save(admin);
+                usuarioRepository.save(admin);
                 System.out.println("Usuário admin criado com sucesso!");
             }
 
@@ -73,7 +73,7 @@ public class DataInitializer {
                 perfisUser.add(userPerfil);
                 user.setPerfis(perfisUser);
 
-                Usuario savedUser = usuarioRepository.save(user);
+                usuarioRepository.save(user);
                 System.out.println("Usuário comum criado com sucesso!");
             }
 
