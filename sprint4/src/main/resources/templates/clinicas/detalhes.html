@@ -18,7 +18,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/}" th:text="#{nav.home}">Home</a>
+                    <a class="nav-link" th:href="@{/}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" th:href="@{/clinicas}" th:text="#{nav.clinics}">Clínicas</a>
@@ -75,7 +75,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-6">
-                    <p><strong th:text="#{clinic.cnpj}">CNPJ:</strong> <span th:text="${clinica.cnpj}"></span></p>
+                    <p><strong>CNPJ:</strong> <span th:text="${clinica.cnpj}"></span></p>
                     <p><strong th:text="#{clinic.company.name}">Razão Social:</strong> <span th:text="${clinica.razaoSocial}"></span></p>
                     <p><strong th:text="#{clinic.trading.name}">Nome Fantasia:</strong> <span th:text="${clinica.nomeFantasia}"></span></p>
                     <p><strong th:text="#{field.email}">Email:</strong> <span th:text="${clinica.email}"></span></p>
@@ -83,7 +83,7 @@
                 <div class="col-md-6">
                     <p><strong th:text="#{field.phone}">Telefone:</strong> <span th:text="${clinica.telefone}"></span></p>
                     <p><strong th:text="#{clinic.size}">Porte:</strong> <span th:text="${clinica.porte}"></span></p>
-                    <p><strong th:text="#{field.status}">Status:</strong>
+                    <p><strong>Status:</strong>
                         <span th:if="${clinica.status == 'ATIVO'}" class="badge bg-success" th:text="#{status.active}">Ativo</span>
                         <span th:if="${clinica.status == 'INATIVO'}" class="badge bg-danger" th:text="#{status.inactive}">Inativo</span>
                     </p>

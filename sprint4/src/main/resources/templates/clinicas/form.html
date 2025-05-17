@@ -18,7 +18,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/}" th:text="#{nav.home}">Home</a>
+                    <a class="nav-link" th:href="@{/}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" th:href="@{/clinicas}" th:text="#{nav.clinics}">Clínicas</a>
@@ -69,7 +69,7 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="cnpj" class="form-label" th:text="#{clinic.cnpj}">CNPJ</label>
+                        <label for="cnpj" class="form-label">CNPJ</label>
                         <input type="text" th:field="*{cnpj}" class="form-control"
                                th:readonly="${clinicaDTO.cnpj != null && !permitirEdicaoCnpj}"
                                th:classappend="${#fields.hasErrors('cnpj')} ? 'is-invalid'">
@@ -122,10 +122,10 @@
                     </div>
 
                     <div class="col-md-4">
-                        <label for="status" class="form-label" th:text="#{field.status}">Status</label>
+                        <label for="status" class="form-label">Status</label>
                         <select th:field="*{status}" class="form-select"
                                 th:classappend="${#fields.hasErrors('status')} ? 'is-invalid'">
-                            <option value="">Selecione...</option>
+                            <option value="" th:text="#{field.select}">Selecione...</option>
                             <option th:each="statusOpt : ${T(br.com.fiap.sprint4.models.Status).values()}"
                                     th:value="${statusOpt.name()}"
                                     th:text="${statusOpt.getDescricao()}"></option>

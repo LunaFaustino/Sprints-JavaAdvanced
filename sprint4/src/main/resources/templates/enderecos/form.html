@@ -11,7 +11,7 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-        <a class="navbar-brand" href="#">Sistema Odontoprev</a>
+        <a class="navbar-brand" href="#" th:text="#{app.title}">Sistema Odontoprev</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -21,16 +21,16 @@
                     <a class="nav-link" th:href="@{/}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/clinicas}">Clínicas</a>
+                    <a class="nav-link" th:href="@{/clinicas}" th:text="#{nav.clinics}">Clínicas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/dentistas}">Dentistas</a>
+                    <a class="nav-link" th:href="@{/dentistas}" th:text="#{nav.dentists}">Dentistas</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/pacientes}">Pacientes</a>
+                    <a class="nav-link" th:href="@{/pacientes}" th:text="#{nav.patients}">Pacientes</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link" th:href="@{/usuarios}">Usuários</a>
+                    <a class="nav-link" th:href="@{/usuarios}" th:text="#{nav.users}">Usuários</a>
                 </li>
             </ul>
 
@@ -52,7 +52,7 @@
             <span sec:authentication="name"></span>
         </span>
                 <form th:action="@{/logout}" method="post">
-                    <button type="submit" class="btn btn-outline-light btn-sm">Sair</button>
+                    <button type="submit" class="btn btn-outline-light btn-sm" th:text="#{nav.logout}">Sair</button>
                 </form>
             </div>
         </div>
@@ -60,7 +60,7 @@
 </nav>
 
 <div class="container mt-4">
-    <h2 th:text="${enderecoDTO.id == null ? 'Novo Endereço' : 'Editar Endereço'}">Endereço</h2>
+    <h2 th:text="${enderecoDTO.id == null ? #{address.new} : #{address.edit}}">Endereço</h2>
 
     <div class="card">
         <div class="card-body">
@@ -69,7 +69,7 @@
 
                 <div class="row mb-3">
                     <div class="col-md-8">
-                        <label for="logradouro" class="form-label">Logradouro</label>
+                        <label for="logradouro" class="form-label" th:text="#{address.street}">Logradouro</label>
                         <input type="text" th:field="*{logradouro}" class="form-control"
                                th:classappend="${#fields.hasErrors('logradouro')} ? 'is-invalid'">
                         <div class="invalid-feedback" th:if="${#fields.hasErrors('logradouro')}"
@@ -77,19 +77,19 @@
                     </div>
 
                     <div class="col-md-4">
-                        <label for="numero" class="form-label">Número</label>
+                        <label for="numero" class="form-label" th:text="#{address.number}">Número</label>
                         <input type="number" th:field="*{numero}" class="form-control">
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="complemento" class="form-label">Complemento</label>
+                        <label for="complemento" class="form-label" th:text="#{address.complement}">Complemento</label>
                         <input type="text" th:field="*{complemento}" class="form-control">
                     </div>
 
                     <div class="col-md-6">
-                        <label for="bairro" class="form-label">Bairro</label>
+                        <label for="bairro" class="form-label" th:text="#{address.neighborhood}">Bairro</label>
                         <input type="text" th:field="*{bairro}" class="form-control"
                                th:classappend="${#fields.hasErrors('bairro')} ? 'is-invalid'">
                         <div class="invalid-feedback" th:if="${#fields.hasErrors('bairro')}"
@@ -99,7 +99,7 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="cidade" class="form-label">Cidade</label>
+                        <label for="cidade" class="form-label" th:text="#{address.city}">Cidade</label>
                         <input type="text" th:field="*{cidade}" class="form-control"
                                th:classappend="${#fields.hasErrors('cidade')} ? 'is-invalid'">
                         <div class="invalid-feedback" th:if="${#fields.hasErrors('cidade')}"
@@ -107,7 +107,7 @@
                     </div>
 
                     <div class="col-md-3">
-                        <label for="estado" class="form-label">Estado</label>
+                        <label for="estado" class="form-label" th:text="#{address.state}">Estado</label>
                         <input type="text" th:field="*{estado}" class="form-control"
                                th:classappend="${#fields.hasErrors('estado')} ? 'is-invalid'">
                         <div class="invalid-feedback" th:if="${#fields.hasErrors('estado')}"
@@ -115,18 +115,18 @@
                     </div>
 
                     <div class="col-md-3">
-                        <label for="cep" class="form-label">CEP</label>
+                        <label for="cep" class="form-label" th:text="#{address.zip}">CEP</label>
                         <input type="text" th:field="*{cep}" class="form-control"
                                th:classappend="${#fields.hasErrors('cep')} ? 'is-invalid'">
                         <div class="invalid-feedback" th:if="${#fields.hasErrors('cep')}"
                              th:errors="*{cep}"></div>
-                        <small class="form-text text-muted">Formato: 00000-000</small>
+                        <small class="form-text text-muted" th:text="#{input.hint.numbers.8digits}">Formato: 00000-000</small>
                     </div>
                 </div>
 
                 <div class="mt-4">
-                    <a th:href="@{/enderecos}" class="btn btn-secondary">Cancelar</a>
-                    <button type="submit" class="btn btn-primary">Salvar</button>
+                    <a th:href="@{/enderecos}" class="btn btn-secondary" th:text="#{btn.cancel}">Cancelar</a>
+                    <button type="submit" class="btn btn-primary" th:text="#{btn.save}">Salvar</button>
                 </div>
             </form>
         </div>

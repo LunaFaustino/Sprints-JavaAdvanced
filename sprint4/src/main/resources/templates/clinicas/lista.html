@@ -18,7 +18,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/}" th:text="#{nav.home}">Home</a>
+                    <a class="nav-link" th:href="@{/}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" th:href="@{/clinicas}" th:text="#{nav.clinics}">Clínicas</a>
@@ -85,9 +85,9 @@
                 <table class="table table-striped table-hover">
                     <thead class="table-dark">
                     <tr>
-                        <th th:text="#{clinic.cnpj}">CNPJ</th>
+                        <th>CNPJ</th>
                         <th th:text="#{clinic.trading.name}">Nome Fantasia</th>
-                        <th th:text="#{field.status}">Status</th>
+                        <th>Status</th>
                         <th th:text="#{field.actions}">Ações</th>
                     </tr>
                     </thead>
@@ -122,12 +122,12 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p th:text="#{}">Deseja realmente excluir a clínica <strong th:text="${clinica.nomeFantasia}"></strong>?</p>
+                                            <p th:text="#{confirm.delete(${clinica.nomeFantasia})}">Deseja realmente excluir a clínica <strong th:text="${clinica.nomeFantasia}"></strong>?</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{}">Cancelar</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{btn.cancel}">Cancelar</button>
                                             <form th:action="@{/clinicas/{cnpj}/excluir(cnpj=${clinica.cnpj})}" method="post">
-                                                <button type="submit" class="btn btn-danger" th:text="#{}">Excluir</button>
+                                                <button type="submit" class="btn btn-danger" th:text="#{btn.delete}">Excluir</button>
                                             </form>
                                         </div>
                                     </div>
