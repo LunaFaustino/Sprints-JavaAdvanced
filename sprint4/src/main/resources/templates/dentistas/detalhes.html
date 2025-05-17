@@ -82,7 +82,7 @@
                 <div class="col-md-6">
                     <p><strong th:text="#{field.phone}">Telefone:</strong> <span th:text="${dentista.telefone}"></span></p>
                     <p><strong th:text="#{field.gender}">Gênero:</strong> <span th:text="${dentista.genero?.getDescricao()}"></span></p>
-                    <p><strong th:text="#{}">Status:</strong>
+                    <p><strong>Status:</strong>
                         <span th:if="${dentista.status == T(br.com.fiap.sprint4.models.Status).ATIVO}" class="badge bg-success" th:text="#{status.active}">Ativo</span>
                         <span th:if="${dentista.status == T(br.com.fiap.sprint4.models.Status).INATIVO}" class="badge bg-danger" th:text="#{status.inactive}">Inativo</span>
                     </p>

@@ -126,7 +126,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p th:text="#{confirm.title(${usuario.nome})}">Deseja realmente excluir o usuário <strong th:text="${usuario.nome}"></strong>?</p>
+                                            <p th:text="#{user.confirm.delete(${usuario.nome})}">Deseja realmente excluir o usuário <strong th:text="${usuario.nome}"></strong>?</p>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{btn.cancel}">Cancelar</button>
