@@ -9,55 +9,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="#" th:text="#{app.title}"></a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/}">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/clinicas}" th:text="#{nav.clinics}"></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/dentistas}" th:text="#{nav.dentists}"></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/pacientes}" th:text="#{nav.patients}"></a>
-                </li>
-                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
-                    <a class="nav-link" th:href="@{/usuarios}" th:text="#{nav.users}"></a>
-                </li>
-            </ul>
 
-            <div class="ms-auto me-3">
-                <div class="dropdown">
-                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-globe"></i> <span th:text="#{language.pt_BR}" th:if="${#locale.language == 'pt'}"></span>
-                        <span th:text="#{language.en}" th:if="${#locale.language == 'en'}"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                        <li><a class="dropdown-item" href="?lang=pt_BR" th:text="#{language.pt_BR}"></a></li>
-                        <li><a class="dropdown-item" href="?lang=en" th:text="#{language.en}"></a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="d-flex">
-        <span class="navbar-text me-3">
-            <span sec:authentication="name"></span>
-        </span>
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit" class="btn btn-outline-light btn-sm" th:text="#{nav.logout}"></button>
-                </form>
-            </div>
-        </div>
-    </div>
-</nav>
+<div th:replace="~{nav-fragment :: navbar('pacientes')}"></div>
 
 <div class="container mt-4">
     <h2 th:text="${pacienteDTO.cpf == null} ? #{patient.new} : #{patient.edit}"></h2>
