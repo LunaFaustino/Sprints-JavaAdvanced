@@ -118,16 +118,16 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" th:text="#{confirm.title}">Confirmar Exclusão</h5>
+                                            <h5 class="modal-title" th:text="#{confirm.title}"></h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p th:text="#{confirm.delete(${clinica.nomeFantasia})}">Deseja realmente excluir a clínica <strong th:text="${clinica.nomeFantasia}"></strong>?</p>
+                                            <p th:utext="#{clinic.confirm.delete(${clinica.nomeFantasia})}"><strong th:text="${clinica.nomeFantasia}"></strong></p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{btn.cancel}">Cancelar</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" th:text="#{btn.cancel}"></button>
                                             <form th:action="@{/clinicas/{cnpj}/excluir(cnpj=${clinica.cnpj})}" method="post">
-                                                <button type="submit" class="btn btn-danger" th:text="#{btn.delete}">Excluir</button>
+                                                <button type="submit" class="btn btn-danger" th:text="#{btn.delete}"></button>
                                             </form>
                                         </div>
                                     </div>
