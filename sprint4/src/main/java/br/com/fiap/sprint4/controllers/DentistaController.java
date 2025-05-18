@@ -7,6 +7,7 @@ import br.com.fiap.sprint4.models.Genero;
 import br.com.fiap.sprint4.models.Status;
 import br.com.fiap.sprint4.services.ClinicaService;
 import br.com.fiap.sprint4.services.DentistaService;
+import br.com.fiap.sprint4.services.impl.NotificationProducerService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +24,12 @@ public class DentistaController {
 
     private final DentistaService dentistaService;
     private final ClinicaService clinicaService;
+    private final NotificationProducerService notificationService;
 
-    public DentistaController(DentistaService dentistaService, ClinicaService clinicaService) {
+    public DentistaController(DentistaService dentistaService, ClinicaService clinicaService, NotificationProducerService notificationService) {
         this.dentistaService = dentistaService;
         this.clinicaService = clinicaService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping
@@ -68,6 +71,13 @@ public class DentistaController {
         try {
             Dentista dentista = dentistaDTO.toEntity();
             dentistaService.salvarDentista(dentista);
+
+            notificationService.enviarNotificacaoDentista(
+                    dentista.getCro(),
+                    "CADASTRO",
+                    "Novo dentista cadastrado: " + dentista.getNome()
+            );
+
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Dentista cadastrado com sucesso!");
             return "redirect:/dentistas";
         } catch (Exception e) {
@@ -128,6 +138,13 @@ public class DentistaController {
         try {
             Dentista dentista = dentistaDTO.toEntity();
             dentistaService.atualizarDentista(cro, dentista);
+
+            notificationService.enviarNotificacaoDentista(
+                    dentista.getCro(),
+                    "ATUALIZACÃO",
+                    "Dentista atualizado: " + dentista.getNome()
+            );
+
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Dentista atualizado com sucesso!");
             return "redirect:/dentistas";
         } catch (Exception e) {
@@ -139,7 +156,17 @@ public class DentistaController {
     @PostMapping("/{cro}/excluir")
     public String excluirDentista(@PathVariable String cro, RedirectAttributes redirectAttributes) {
         try {
+            Dentista dentista = dentistaService.obterDentistaPorCro(cro);
+            String nomeDentista = dentista.getNome();
+
             dentistaService.deletarDentista(cro);
+
+            notificationService.enviarNotificacaoDentista(
+                    dentista.getCro(),
+                    "EXCLUSÃO",
+                    "Dentista excluído: " + nomeDentista
+            );
+
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Dentista excluído com sucesso!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("mensagemErro", "Erro ao excluir dentista: " + e.getMessage());

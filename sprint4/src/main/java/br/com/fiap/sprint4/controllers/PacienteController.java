@@ -7,9 +7,8 @@ import br.com.fiap.sprint4.models.Paciente;
 import br.com.fiap.sprint4.models.Status;
 import br.com.fiap.sprint4.services.ClinicaService;
 import br.com.fiap.sprint4.services.PacienteService;
+import br.com.fiap.sprint4.services.impl.NotificationProducerService;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,14 +22,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/pacientes")
 public class PacienteController {
 
-    private static final Logger logger = LoggerFactory.getLogger(PacienteController.class);
 
     private final PacienteService pacienteService;
     private final ClinicaService clinicaService;
+    private final NotificationProducerService notificationService;
 
-    public PacienteController(PacienteService pacienteService, ClinicaService clinicaService) {
+    public PacienteController(PacienteService pacienteService, ClinicaService clinicaService, NotificationProducerService notificationService) {
         this.pacienteService = pacienteService;
         this.clinicaService = clinicaService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping
@@ -60,11 +60,7 @@ public class PacienteController {
                                  RedirectAttributes redirectAttributes,
                                  Model model) {
 
-        logger.info("Iniciando método salvarPaciente no controller");
-        logger.info("PacienteDTO recebido: {}", pacienteDTO);
-
         if (result.hasErrors()) {
-            logger.warn("Erros de validação encontrados: {}", result.getAllErrors());
             model.addAttribute("clinicas", clinicaService.listarTodasClinicas().stream()
                     .map(ClinicaDTO::new)
                     .collect(Collectors.toList()));
@@ -74,18 +70,19 @@ public class PacienteController {
         }
 
         try {
-            logger.info("Convertendo PacienteDTO para Paciente");
             Paciente paciente = pacienteDTO.toEntity();
-            logger.info("Paciente após conversão: {}", paciente);
 
-            logger.info("Chamando pacienteService.salvarPaciente()");
             Paciente pacienteSalvo = pacienteService.salvarPaciente(paciente);
-            logger.info("Paciente salvo com sucesso: {}", pacienteSalvo);
+
+            notificationService.enviarNotificacaoPaciente(
+                    pacienteSalvo.getCpf(),
+                    "CADASTRO",
+                    "Novo paciente cadastrado: " + pacienteSalvo.getNome()
+            );
 
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Paciente cadastrado com sucesso!");
             return "redirect:/pacientes";
         } catch (Exception e) {
-            logger.error("Erro ao cadastrar paciente: ", e);
             redirectAttributes.addFlashAttribute("mensagemErro", "Erro ao cadastrar paciente: " + e.getMessage());
             return "redirect:/pacientes/novo";
         }
@@ -143,6 +140,13 @@ public class PacienteController {
         try {
             Paciente paciente = pacienteDTO.toEntity();
             pacienteService.atualizarPaciente(cpf, paciente);
+
+            notificationService.enviarNotificacaoPaciente(
+                    paciente.getCpf(),
+                    "ATUALIZAÇÃO",
+                    "Paciente atualizado: " + paciente.getNome()
+            );
+
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Paciente atualizado com sucesso!");
             return "redirect:/pacientes";
         } catch (Exception e) {
@@ -154,7 +158,17 @@ public class PacienteController {
     @PostMapping("/{cpf}/excluir")
     public String excluirPaciente(@PathVariable String cpf, RedirectAttributes redirectAttributes) {
         try {
+            Paciente paciente = pacienteService.obterPacientePorCpf(cpf);
+            String nomePaciente = paciente.getNome();
+
             pacienteService.deletarPaciente(cpf);
+
+            notificationService.enviarNotificacaoPaciente(
+                    paciente.getCpf(),
+                    "EXCLUSÃO",
+                    "Paciente excluído: " + nomePaciente
+            );
+
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Paciente excluído com sucesso!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("mensagemErro", "Erro ao excluir paciente: " + e.getMessage());

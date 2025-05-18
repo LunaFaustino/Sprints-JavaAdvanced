@@ -5,6 +5,7 @@ import br.com.fiap.sprint4.models.Clinica;
 import br.com.fiap.sprint4.models.Porte;
 import br.com.fiap.sprint4.models.Status;
 import br.com.fiap.sprint4.services.ClinicaService;
+import br.com.fiap.sprint4.services.impl.NotificationProducerService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,9 +21,11 @@ import java.util.stream.Collectors;
 public class ClinicaController {
 
     private final ClinicaService clinicaService;
+    private final NotificationProducerService notificationService;
 
-    public ClinicaController(ClinicaService clinicaService) {
+    public ClinicaController(ClinicaService clinicaService, NotificationProducerService notificationService) {
         this.clinicaService = clinicaService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping
@@ -65,6 +68,13 @@ public class ClinicaController {
             System.out.println("Entidade convertida: " + clinica);
 
             clinicaService.salvarClinica(clinica);
+
+            notificationService.enviarNotificacaoClinica(
+                    clinica.getCnpj(),
+                    "CADASTRO",
+                            "Nova clínica cadastrada: " + clinica.getNomeFantasia()
+            );
+
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Clínica cadastrada com sucesso!");
             return "redirect:/clinicas";
         } catch (Exception e) {
@@ -122,6 +132,13 @@ public class ClinicaController {
         try {
             Clinica clinica = clinicaDTO.toEntity();
             clinicaService.atualizarClinica(cnpj, clinica);
+
+            notificationService.enviarNotificacaoClinica(
+                    clinica.getCnpj(),
+                    "ATUALIZACÃO",
+                            "Clínica atualizada: " + clinica.getNomeFantasia()
+            );
+
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Clínica atualizada com sucesso!");
             return "redirect:/clinicas";
         } catch (Exception e) {
@@ -133,7 +150,18 @@ public class ClinicaController {
     @PostMapping("/{cnpj}/excluir")
     public String excluirClinica(@PathVariable String cnpj, RedirectAttributes redirectAttributes) {
         try {
+
+            Clinica clinica = clinicaService.obterClinicaPorCnpj(cnpj);
+            String nomeClinica = clinica.getNomeFantasia();
+
             clinicaService.deletarClinica(cnpj);
+
+            notificationService.enviarNotificacaoClinica(
+                    cnpj,
+                    "EXCLUSÃO",
+                            "Clínica excluída: " + nomeClinica
+            );
+
             redirectAttributes.addFlashAttribute("mensagemSucesso", "Clínica excluída com sucesso!");
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("mensagemErro", "Erro ao excluir clínica: " + e.getMessage());
