@@ -1,5 +1,6 @@
 package br.com.fiap.sprint4.services.impl;
 
+import br.com.fiap.sprint4.actuator.OdontoprevMetrics;
 import br.com.fiap.sprint4.models.Clinica;
 import br.com.fiap.sprint4.models.Paciente;
 import br.com.fiap.sprint4.repositories.PacienteRepository;
@@ -14,11 +15,15 @@ import java.util.List;
 public class PacienteServiceImpl implements PacienteService {
 
     private final PacienteRepository pacienteRepository;
+
     private final ClinicaService clinicaService;
 
-    public PacienteServiceImpl(PacienteRepository pacienteRepository, ClinicaService clinicaService) {
+    private final OdontoprevMetrics odontoprevMetrics;
+
+    public PacienteServiceImpl(PacienteRepository pacienteRepository, ClinicaService clinicaService, OdontoprevMetrics odontoprevMetrics) {
         this.pacienteRepository = pacienteRepository;
         this.clinicaService = clinicaService;
+        this.odontoprevMetrics = odontoprevMetrics;
     }
 
     @Override
@@ -50,6 +55,8 @@ public class PacienteServiceImpl implements PacienteService {
         } catch (Exception e) {
             throw new IllegalArgumentException("Clínica não encontrada: " + paciente.getClinica().getCnpj());
         }
+
+        odontoprevMetrics.incrementPacienteCadastro();
 
         return pacienteRepository.save(paciente);
     }

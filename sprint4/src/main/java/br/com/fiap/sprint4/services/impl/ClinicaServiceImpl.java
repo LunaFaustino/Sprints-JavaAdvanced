@@ -1,5 +1,6 @@
 package br.com.fiap.sprint4.services.impl;
 
+import br.com.fiap.sprint4.actuator.OdontoprevMetrics;
 import br.com.fiap.sprint4.models.Clinica;
 import br.com.fiap.sprint4.repositories.ClinicaRepository;
 import br.com.fiap.sprint4.services.ClinicaService;
@@ -12,8 +13,11 @@ public class ClinicaServiceImpl implements ClinicaService {
 
     private final ClinicaRepository clinicaRepository;
 
-    public ClinicaServiceImpl(ClinicaRepository clinicaRepository) {
+    private final OdontoprevMetrics odontoprevMetrics;
+
+    public ClinicaServiceImpl(ClinicaRepository clinicaRepository, OdontoprevMetrics odontoprevMetrics) {
         this.clinicaRepository = clinicaRepository;
+        this.odontoprevMetrics = odontoprevMetrics;
     }
 
     @Override
@@ -32,6 +36,7 @@ public class ClinicaServiceImpl implements ClinicaService {
         }
 
         clinicaRepository.save(clinica);
+        odontoprevMetrics.incrementClinicaCadastro();
     }
 
     @Override

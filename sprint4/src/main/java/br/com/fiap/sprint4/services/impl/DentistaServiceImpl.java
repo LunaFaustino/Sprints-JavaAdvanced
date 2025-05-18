@@ -1,5 +1,6 @@
 package br.com.fiap.sprint4.services.impl;
 
+import br.com.fiap.sprint4.actuator.OdontoprevMetrics;
 import br.com.fiap.sprint4.models.Clinica;
 import br.com.fiap.sprint4.models.Dentista;
 import br.com.fiap.sprint4.repositories.DentistaRepository;
@@ -13,11 +14,16 @@ import java.util.List;
 public class DentistaServiceImpl implements DentistaService {
 
     private final DentistaRepository dentistaRepository;
+
     private final ClinicaService clinicaService;
 
-    public DentistaServiceImpl(DentistaRepository dentistaRepository, ClinicaService clinicaService) {
+    private final OdontoprevMetrics odontoprevMetrics;
+
+
+    public DentistaServiceImpl(DentistaRepository dentistaRepository, ClinicaService clinicaService, OdontoprevMetrics odontoprevMetrics) {
         this.dentistaRepository = dentistaRepository;
         this.clinicaService = clinicaService;
+        this.odontoprevMetrics = odontoprevMetrics;
     }
 
     @Override
@@ -47,6 +53,7 @@ public class DentistaServiceImpl implements DentistaService {
         }
 
         dentistaRepository.save(dentista);
+        odontoprevMetrics.incrementDentistaCadastro();
     }
 
     @Override
