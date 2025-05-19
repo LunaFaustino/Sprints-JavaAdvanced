@@ -29,7 +29,7 @@
                     <a class="nav-link" th:classappend="${activeTab == 'pacientes'} ? 'active' : ''" th:href="@{/pacientes}" th:text="#{nav.patients}"></a>
                 </li>
                 <li class="nav-item" th:classappend="${activeTab == 'assistente'} ? 'active' : ''">
-                    <a class="nav-link" th:classappend="${activeTab == 'assistente'} ? 'active' : ''" th:href="@{/assistente}">Assistente Virtual</a>
+                    <a class="nav-link" th:classappend="${activeTab == 'assistente'} ? 'active' : ''" th:href="@{/assistente}" th:text="#{assistance.title}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')" th:classappend="${activeTab == 'usuarios'} ? 'active' : ''">
                     <a class="nav-link" th:classappend="${activeTab == 'usuarios'} ? 'active' : ''" th:href="@{/usuarios}" th:text="#{nav.users}"></a>

@@ -44,12 +44,17 @@ public class AssistenteIAService {
 
             Prompt prompt = new Prompt(List.of(systemMessage, userMessage));
 
-            Object response = chatModel.getClass().getMethod("call", Prompt.class).invoke(chatModel, prompt);
+            String fullResponse = chatModel.call(prompt).toString();
 
-            String resposta = chatModel.call(prompt).toString();
+            java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("textContent=([^,]+)");
+            java.util.regex.Matcher matcher = pattern.matcher(fullResponse);
 
-            if (resposta == null || resposta.isEmpty()) {
-                resposta = response.toString();
+            String resposta;
+            if (matcher.find()) {
+                resposta = matcher.group(1);
+                resposta = resposta.replaceAll("^[\"']|[\"']$", "");
+            } else {
+                resposta = "Não foi possível processar sua pergunta.";
             }
 
             return new PerguntaResposta(pergunta, resposta);
